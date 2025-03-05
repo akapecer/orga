@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-02 13:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\menu\models.py:8
+msgid "Categoria"
+msgstr "Categoria"
+
+#: .\menu\models.py:9
+msgid "Categorie"
+msgstr "Categorie"
+
+#: .\menu\models.py:36
+msgid "Allergene"
+msgstr "Allergene"
+
+#: .\menu\models.py:37
+msgid "Allergeni"
+msgstr "Allergeni"
+
+#: .\menu\models.py:50
+msgid "Piatto"
+msgstr "Piatto"
+
+#: .\menu\models.py:51
+msgid "Piatti"
+msgstr "Piatti"
+
+#: .\menu\models.py:62 .\menu\models.py:63
+msgid "Menu"
+msgstr "Menu"

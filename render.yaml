@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: orga-django
+    runtime: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn orga.wsgi:application --workers=2
+    envVars:
+      - key: SECRET_KEY
+        value: ${SECRET_KEY}  # Variabile d'ambiente da configurare su Render
+      - key: DEBUG
+        value: ${DEBUG}  # Variabile d'ambiente da configurare su Render
+      - key: ALLOWED_HOSTS
+        value: ${ALLOWED_HOSTS}  # Variabile d'ambiente da configurare su Render
+      - key: DATABASE_URL
+        value: ${DATABASE_URL}  # Variabile d'ambiente da configurare su Render
