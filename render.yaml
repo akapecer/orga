@@ -4,6 +4,7 @@ services:
     runtime: python
     buildCommand: |
       pip install -r requirements.txt
+      mkdir -p /opt/render/project/src/staticfiles
       python manage.py collectstatic --noinput
     startCommand: gunicorn orga.wsgi:application --workers=2
     envVars:
