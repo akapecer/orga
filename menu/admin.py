@@ -37,11 +37,6 @@ class AllergeneAdmin(admin.ModelAdmin):
 
 
 class PiattoAdminForm(forms.ModelForm):
-    allergeni = forms.ModelMultipleChoiceField(
-        queryset=Allergene.objects.all().order_by('numero'),
-        widget=CheckboxSelectMultiple,
-        label="Allergeni",
-    )
     prezzo = forms.CharField(
         label="Prezzo",
         widget=forms.TextInput(attrs={'placeholder': 'es. 12.50'})
@@ -53,7 +48,6 @@ class PiattoAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['allergeni'].choices = [(a.id, f"{a.numero}. {a.nome}") for a in Allergene.objects.all().order_by('numero')]
         if self.instance.pk:
             self.fields['prezzo'].initial = f"{self.instance.prezzo:.2f} €"
 
@@ -76,6 +70,7 @@ class PiattoAdmin(admin.ModelAdmin):
     list_filter = ('categoria',)
     search_fields = ('nome', 'categoria__nome')
     form = PiattoAdminForm
+    filter_horizontal = ('allergeni',)
 
 
 class MenuAdminForm(forms.ModelForm):
@@ -100,8 +95,20 @@ class MenuAdmin(admin.ModelAdmin):
     list_display = (formatted_data_creazione, 'genera_pdf_link')
     filter_horizontal = ('piatti',)
     form = MenuAdminForm
+    fieldsets = (
+        ('Composizione', {
+            'fields': ('piatti',),
+            'classes': ('collapse', 'open'),
+            'description': 'Seleziona i piatti dalla lista di sinistra per aggiungerli al menu.'
+        }),
+    )
 
     actions = ['delete_selected', 'delete_all_menus']
+
+    class Media:
+        css = {
+            'all': ('menu/css/custom_admin.css',)
+        }
 
     def genera_pdf_link(self, obj):
         return format_html('<a href="/genera-pdf-menu/{}/" target="_blank">Genera PDF</a>', obj.id)
