@@ -24,7 +24,7 @@
 .field-piatti .selector-chosen {
     flex: 2 !important; /* Espansione flessibile */
     width: 40% !important; /* Fallback width */
-    min-width: 450px !important;
+    min-width: 250px !important;
     margin: 0 !important;
     padding: 0 !important;
     border: 1px solid #ced4da !important;
