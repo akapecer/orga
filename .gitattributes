@@ -1,0 +1,2 @@
+# Forza i file shell script ad usare sempre LF (necessario per Linux/Render)
+*.sh text eol=lf

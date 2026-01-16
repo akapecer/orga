@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'menu',
+    'pwa',
 ]
 
 JAZZMIN_SETTINGS = {
@@ -168,3 +169,22 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- PWA CONFIGURATION ---
+PWA_APP_NAME = 'Orga Menu'
+PWA_APP_DESCRIPTION = "Il menu digitale del tuo ristorante"
+PWA_APP_THEME_COLOR = '#343a40'  # Colore della barra di stato (es. scuro come Jazzmin)
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_START_URL = '/'
+PWA_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/logo.png',  # Assicurati di avere questo file!
+        'sizes': '512x512'
+    }
+]
+PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo.png', 'sizes': '512x512'}]
+PWA_APP_LANG = 'it-IT'
