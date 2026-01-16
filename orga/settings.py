@@ -190,5 +190,5 @@ PWA_APP_ICONS = [
         'sizes': '512x512'
     }
 ]
-PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo.png', 'sizes': '512x512'}]
+PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo_1.png', 'sizes': '512x512'}]
 PWA_APP_LANG = 'it-IT'
