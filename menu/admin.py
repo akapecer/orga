@@ -36,10 +36,21 @@ class AllergeneAdmin(admin.ModelAdmin):
     form = AllergeneForm
 
 
+# Campo personalizzato per mostrare "Numero. Nome" nelle checkbox
+class AllergeneChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return f"{obj.numero}. {obj.nome}"
+
+
 class PiattoAdminForm(forms.ModelForm):
     prezzo = forms.CharField(
         label="Prezzo",
         widget=forms.TextInput(attrs={'placeholder': 'es. 12.50'})
+    )
+    allergeni = AllergeneChoiceField(
+        queryset=Allergene.objects.all().order_by('numero'),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
 
     class Meta:
@@ -70,7 +81,11 @@ class PiattoAdmin(admin.ModelAdmin):
     list_filter = ('categoria',)
     search_fields = ('nome', 'categoria__nome')
     form = PiattoAdminForm
-    filter_horizontal = ('allergeni',)
+
+    class Media:
+        css = {
+            'all': ('menu/css/dashboard.css',)
+        }
 
 
 class MenuAdminForm(forms.ModelForm):

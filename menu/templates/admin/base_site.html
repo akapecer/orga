@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %}
+{% load pwa %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {% progressive_web_app_meta %}
+    <link rel="stylesheet" href="{% static 'menu/css/dashboard.css' %}">
+{% endblock %}

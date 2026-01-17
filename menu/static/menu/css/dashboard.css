@@ -1,5 +1,16 @@
 /* --- LAYOUT GENERALE --- */
 
+/* Nascondi la label "Piatti" */
+.field-piatti label {
+    display: none !important;
+}
+
+/* Espandi il contenitore dei box per occupare tutto lo spazio (sovrascrive Bootstrap) */
+.field-piatti .row > div {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+
 /* Assicura che il contenitore del campo occupi tutto lo spazio */
 .field-piatti {
     width: 100% !important;
@@ -12,7 +23,7 @@
     width: 100% !important;
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
+    align-items: stretch !important;
     justify-content: space-between !important;
     gap: 20px !important;
     float: none !important; /* Disabilita float di Django */
@@ -22,15 +33,17 @@
 
 .field-piatti .selector-available, 
 .field-piatti .selector-chosen {
+    display: flex !important;
+    flex-direction: column !important;
     flex: 1 !important; /* Espansione flessibile */
     width: 40% !important; /* Fallback width */
     min-width: 250px !important;
     margin: 0 !important;
     padding: 0 !important;
     border: 1px solid #ced4da !important;
-    border-radius: 5px !important;
+    border-radius: 8px !important;
     background-color: #fff !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
     float: none !important;
 }
 
@@ -49,13 +62,23 @@
 /* Liste (Select) */
 .field-piatti .selector select {
     min-height: 450px !important;
-    height: 100% !important;
+    height: auto !important;
+    flex: 1 !important;
     width: 100% !important;
     border: none !important;
     padding: 10px !important;
     font-size: 14px !important;
     background: transparent !important;
     overflow-y: auto !important;
+    overflow-x: auto !important;
+}
+
+/* Opzioni della lista: forza il testo a capo e aumenta la spaziatura */
+.field-piatti .selector select option {
+    white-space: normal !important;
+    padding: 8px 5px !important;
+    border-bottom: 1px solid #f4f4f4 !important;
+    line-height: 1.4 !important;
 }
 
 /* Filtro di ricerca */
@@ -76,7 +99,7 @@
 /* --- COLONNA CENTRALE (FRECCE) --- */
 
 .field-piatti .selector-chooser {
-    flex: 0 0 60px !important; /* Larghezza fissa per la colonna centrale */
+    flex: 0 0 20px !important; /* Larghezza fissa per la colonna centrale */
     width: 60px !important;
     display: flex !important;
     flex-direction: column !important;
@@ -100,103 +123,23 @@
     list-style: none !important;
 }
 
-/* Bottoni Frecce */
+/* Ingrandisci le frecce di selezione */
 .field-piatti .selector-chooser li a {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50% !important;
-    text-decoration: none !important;
-    font-size: 24px !important;
-    font-weight: bold !important;
-    color: white !important;
-    transition: transform 0.2s ease !important;
-    cursor: pointer !important;
-    opacity: 1 !important;
-    margin: 0 auto !important;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16) !important;
-    text-indent: 0 !important; /* Resetta indentazione che potrebbe nascondere il testo */
+    transform: scale(1.5) !important; /* Ingrandisce l'icona del 50% */
 }
 
-/* Bottone Aggiungi (Verde) */
-.field-piatti .selector-chooser li a.selector-add {
-    background-color: #28a745 !important;
-}
-
-.field-piatti .selector-chooser li a.selector-add:hover {
-    background-color: #218838 !important;
-    transform: scale(1.1) !important;
-}
-
-/* Bottone Rimuovi (Rosso) */
-.field-piatti .selector-chooser li a.selector-remove {
-    background-color: #dc3545 !important;
-}
-
-.field-piatti .selector-chooser li a.selector-remove:hover {
-    background-color: #c82333 !important;
-    transform: scale(1.1) !important;
-}
-
-/* Icone Frecce */
-.field-piatti .selector-chooser li a.selector-add::after {
-    content: '\2192' !important; /* Freccia Destra */
-}
-
-.field-piatti .selector-chooser li a.selector-remove::after {
-    content: '\2190' !important; /* Freccia Sinistra */
-}
-
-/* Nascondi immagini default */
-.field-piatti .selector-chooser li a img {
+/* Nascondi i bottoni "Salva e aggiungi un altro" e "Salva e continua a modificare" */
+#jazzy-actions input[name="_addanother"],
+#jazzy-actions input[name="_continue"] {
     display: none !important;
 }
 
-/* --- RESPONSIVE (TABLET & MOBILE) --- */
-@media (max-width: 1024px) {
-    /* Cambia layout da orizzontale a verticale */
-    .field-piatti .selector {
-        flex-direction: column !important;
-        gap: 15px !important;
-    }
+/* Nascondi i pulsanti "Modifica" (changelink) dalle liste e widget */
+a.btn.changelink {
+    display: none !important;
+}
 
-    /* I box occupano tutta la larghezza */
-    .field-piatti .selector-available, 
-    .field-piatti .selector-chosen {
-        width: 100% !important;
-        min-width: 0 !important;
-        flex: none !important;
-    }
-
-    /* Riduciamo un po' l'altezza su schermi piccoli per evitare troppo scroll */
-    .field-piatti .selector select {
-        min-height: 300px !important;
-    }
-
-    /* La pulsantiera diventa orizzontale e si posiziona tra i due box */
-    .field-piatti .selector-chooser {
-        flex-direction: row !important;
-        width: 100% !important;
-        height: auto !important;
-        padding: 10px 0 !important;
-        flex: 0 0 auto !important;
-    }
-
-    .field-piatti .selector-chooser li {
-        width: auto !important;
-        margin: 0 20px !important;
-        display: inline-block !important;
-    }
-
-    /* Ruota le frecce di 90 gradi (Destra->Giù, Sinistra->Su) */
-    .field-piatti .selector-chooser li a {
-        transform: rotate(90deg) !important;
-    }
-
-    /* Mantiene la rotazione anche durante l'effetto zoom hover */
-    .field-piatti .selector-chooser li a:hover {
-        transform: rotate(90deg) scale(1.1) !important;
-    }
+/* Nascondi il widget specifico richiesto nella dashboard */
+section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row > div.col-md-6.col-sm-12:nth-child(1) {
+    display: none !important;
 }
