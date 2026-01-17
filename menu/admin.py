@@ -107,7 +107,7 @@ class MenuAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': ('menu/css/custom_admin.css',)
+            'all': ('menu/css/dashboard.css',)
         }
 
     def genera_pdf_link(self, obj):
