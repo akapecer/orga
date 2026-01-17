@@ -41,7 +41,6 @@ class AllergeneChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return f"{obj.numero}. {obj.nome}"
 
-
 class PiattoAdminForm(forms.ModelForm):
     prezzo = forms.CharField(
         label="Prezzo",
@@ -73,6 +72,17 @@ class PiattoAdminForm(forms.ModelForm):
             return prezzo
         except ValueError:
             raise forms.ValidationError("Inserisci un prezzo valido.")
+
+    def clean_nome(self):
+        nome = self.cleaned_data['nome']
+        # Verifica se esiste già un piatto con lo stesso nome (case-insensitive)
+        qs = Piatto.objects.filter(nome__iexact=nome)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        
+        if qs.exists():
+            raise forms.ValidationError("Esiste già un piatto con questo nome.")
+        return nome
 
 
 @admin.register(Piatto)

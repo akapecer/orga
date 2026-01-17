@@ -143,3 +143,18 @@ a.btn.changelink {
 section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row > div.col-md-6.col-sm-12:nth-child(1) {
     display: none !important;
 }
+
+/* Disponi le checkbox degli allergeni in orizzontale */
+.field-allergeni #id_allergeni {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    padding-left: 0 !important;
+}
+
+.field-allergeni #id_allergeni > div,
+.field-allergeni #id_allergeni > li {
+    display: inline-flex !important;
+    align-items: center !important;
+    list-style: none !important;
+}
