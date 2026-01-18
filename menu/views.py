@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.utils.html import escape
 from menu.models import Menu, Piatto, Categoria
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
@@ -71,8 +72,14 @@ def genera_pdf_menu(request, menu_id):
                 allergen_paragraph = Paragraph("Allergeni: Nessuno", allergen_style)
                 elements.append(allergen_paragraph)
 
+    # Aggiunta Note a fine PDF
+    if menu.note_interne:
+        elements.append(Paragraph("<br/><br/>", styles["Normal"]))
+        elements.append(Paragraph("<b>Note:</b>", styles["Normal"]))
+        # Escape del testo per evitare errori XML e conversione dei newline
+        elements.append(Paragraph(escape(menu.note_interne).replace('\n', '<br/>'), styles["Normal"]))
+
     # --- Build the PDF
     doc.build(elements)
 
     return response
-

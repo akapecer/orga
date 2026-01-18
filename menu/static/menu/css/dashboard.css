@@ -158,3 +158,53 @@ section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row >
     align-items: center !important;
     list-style: none !important;
 }
+
+/* --- DASHBOARD CLEANUP & LAYOUT --- */
+
+/* Nascondi la colonna principale della dashboard standard (Lista App) */
+/* Questo rimuove l'elemento richiesto e tutti i widget standard ridondanti */
+section#content > div.row > div.col-lg-9 {
+    display: none !important;
+}
+
+/* Espandi la colonna "Azioni Recenti" per occupare tutto lo spazio */
+section#content > div.row > div.col-lg-3 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+
+/* --- AZIONI RECENTI: ORIZZONTALE SU DESKTOP --- */
+@media (min-width: 992px) {
+    /* Rimuovi la linea verticale della timeline */
+    .timeline::before {
+        display: none !important;
+    }
+
+    /* Disponi gli elementi in griglia orizzontale */
+    .timeline {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+    }
+
+    /* Ogni blocco (data o azione) diventa una card flessibile */
+    .timeline > div {
+        flex: 1 1 300px !important; /* Larghezza base 300px, si adatta */
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Aggiusta l'icona della timeline per il layout orizzontale */
+    .timeline > div > .fas, 
+    .timeline > div > .fa {
+        position: static !important;
+        float: left !important;
+        margin-right: 10px !important;
+    }
+    
+    /* Aggiusta il margine del contenuto */
+    .timeline > div > .timeline-item {
+        margin-left: 40px !important;
+        margin-right: 0 !important;
+    }
+}

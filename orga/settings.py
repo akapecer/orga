@@ -57,12 +57,19 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Benvenuto in Orga!",
     "show_sidebar": True,
     "navigation_expanded": True,
+    "hide_apps": ["auth"],
+    "order_with_respect_to": ["menu.Menu", "menu.Categoria", "menu.Piatto", "menu.Allergene"],
     "icons": {
         "menu.Piatto": "fas fa-utensils",
         "menu.Menu": "fas fa-book-open",
         "menu.Categoria": "fas fa-tags", 
         "menu.Allergene": "fas fa-exclamation-triangle",
     },
+    # Link rapidi nella barra in alto
+    "topmenu_links": [
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Nuovo Menu", "url": "admin:menu_menu_add"},
+    ],
 }
 
 

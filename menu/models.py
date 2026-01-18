@@ -55,6 +55,12 @@ class Piatto(models.Model):
 class Menu(models.Model):
     nome = models.CharField(max_length=255)
     data_creazione = models.DateField(auto_now_add=True)
+    note_interne = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Note Interne"),
+        help_text=_("Note visibili solo allo staff (es. dettagli evento, tavolo, ecc.)")
+    )
     piatti = models.ManyToManyField(Piatto)
 
     class Meta:

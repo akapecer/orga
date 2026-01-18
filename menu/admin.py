@@ -101,7 +101,7 @@ class PiattoAdmin(admin.ModelAdmin):
 class MenuAdminForm(forms.ModelForm):
     class Meta:
         model = Menu
-        fields = ('piatti',)
+        fields = ('piatti', 'note_interne')
 
 
 def formatted_data_creazione(obj):
@@ -125,6 +125,10 @@ class MenuAdmin(admin.ModelAdmin):
             'fields': ('piatti',),
             'classes': ('collapse', 'open'),
             'description': 'Seleziona i piatti dalla lista di sinistra per aggiungerli al menu.'
+        }),
+        ('Note', {
+            'fields': ('note_interne',),
+            'description': 'Inserisci qui eventuali note interne per lo staff.'
         }),
     )
 
