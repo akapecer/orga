@@ -1,9 +1,6 @@
 /* --- LAYOUT GENERALE --- */
 
-/* Nascondi la label "Piatti" */
-.field-piatti label {
-    display: none !important;
-}
+
 
 /* Espandi il contenitore dei box per occupare tutto lo spazio (sovrascrive Bootstrap) */
 .field-piatti .row > div {
@@ -62,7 +59,7 @@
 /* Liste (Select) */
 .field-piatti .selector select {
     min-height: 450px !important;
-    height: auto !important;
+    height: 450px !important; /* Altezza fissa per evitare il menu nativo su mobile */
     flex: 1 !important;
     width: 100% !important;
     border: none !important;
@@ -70,7 +67,6 @@
     font-size: 14px !important;
     background: transparent !important;
     overflow-y: auto !important;
-    overflow-x: auto !important;
 }
 
 /* Opzioni della lista: forza il testo a capo e aumenta la spaziatura */
@@ -206,5 +202,38 @@ section#content > div.row > div.col-lg-3 {
     .timeline > div > .timeline-item {
         margin-left: 40px !important;
         margin-right: 0 !important;
+    }
+}
+
+/* --- RESPONSIVE MOBILE (Sotto 768px) --- */
+@media (max-width: 767px) {
+    /* Impila i box verticalmente */
+    .field-piatti .selector {
+        flex-direction: column !important;
+    }
+
+    /* I box occupano tutta la larghezza */
+    .field-piatti .selector-available, 
+    .field-piatti .selector-chosen {
+        width: 100% !important;
+    }
+
+    /* La colonna centrale delle frecce diventa una riga orizzontale */
+    .field-piatti .selector-chooser {
+        flex-direction: row !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 10px 0 !important;
+    }
+
+    .field-piatti .selector-chooser li {
+        display: inline-block !important;
+        width: auto !important;
+        margin: 0 20px !important;
+    }
+
+    /* Ruota le frecce: Destra diventa Giù, Sinistra diventa Su */
+    .field-piatti .selector-chooser li a {
+        transform: rotate(90deg) scale(1.5) !important;
     }
 }
