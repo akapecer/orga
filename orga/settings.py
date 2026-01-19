@@ -58,6 +58,8 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": ["auth"],
+    "theme": "darkly",
+    "show_ui_builder": True,
     "order_with_respect_to": ["menu.Menu", "menu.Categoria", "menu.Piatto", "menu.Allergene"],
     "icons": {
         "menu.Piatto": "fas fa-utensils",
