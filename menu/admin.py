@@ -74,14 +74,14 @@ class PiattoAdminForm(forms.ModelForm):
             raise forms.ValidationError("Inserisci un prezzo valido.")
 
     def clean_nome(self):
-        nome = self.cleaned_data['nome']
+        nome = self.cleaned_data['nome'].strip()
         # Verifica se esiste già un piatto con lo stesso nome (case-insensitive)
         qs = Piatto.objects.filter(nome__iexact=nome)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
         
         if qs.exists():
-            raise forms.ValidationError("Esiste già un piatto con questo nome.")
+            raise forms.ValidationError(f"Esiste già un piatto con il nome '{nome}'.")
         return nome
 
 
