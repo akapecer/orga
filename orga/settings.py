@@ -110,13 +110,24 @@ WSGI_APPLICATION = 'orga.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Fallback per lo sviluppo locale
-        default='postgresql://postgres:postmario@localhost:5432/orga_db',
-        conn_max_age=600
-    )
-}
+if 'DATABASE_URL' in os.environ:
+    # Configurazione per Render (o produzione)
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        )
+    }
+else:
+    # Configurazione per Sviluppo Locale (SQLite)
+    # I dati vengono salvati nel file db.sqlite3 sul tuo PC
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 
