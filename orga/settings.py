@@ -25,7 +25,7 @@ STATIC_URL = "/static/"
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-qw=sxp!83ajud&+b-hqro1vg__8*t$_kwj)xgj700#mq7e^ga-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = 'RENDER' not in os.environ and 'VERCEL' not in os.environ
 
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
 
@@ -182,7 +182,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Abilita la compressione e il caching dei file statici con WhiteNoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
