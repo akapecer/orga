@@ -26,16 +26,13 @@ STATIC_URL = "/static/"
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-qw=sxp!83ajud&+b-hqro1vg__8*t$_kwj)xgj700#mq7e^ga-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ and 'VERCEL' not in os.environ
+DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-
-# Necessario per Vercel (permette il login e i form POST)
-CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
 
 # Application definition
 
@@ -113,7 +110,7 @@ WSGI_APPLICATION = 'orga.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-IS_PRODUCTION = 'VERCEL' in os.environ or 'RENDER' in os.environ
+IS_PRODUCTION = 'RENDER' in os.environ
 
 if IS_PRODUCTION:
     if 'DATABASE_URL' not in os.environ:
@@ -184,7 +181,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Abilita la compressione e il caching dei file statici con WhiteNoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
