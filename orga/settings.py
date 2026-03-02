@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -112,8 +113,11 @@ WSGI_APPLICATION = 'orga.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'DATABASE_URL' in os.environ:
-    # Configurazione per Render (o produzione)
+IS_PRODUCTION = 'VERCEL' in os.environ or 'RENDER' in os.environ
+
+if IS_PRODUCTION:
+    if 'DATABASE_URL' not in os.environ:
+        raise ImproperlyConfigured("La variabile d'ambiente DATABASE_URL non è impostata nell'ambiente di produzione.")
     DATABASES = {
         'default': dj_database_url.config(
             conn_max_age=600,
@@ -122,8 +126,6 @@ if 'DATABASE_URL' in os.environ:
         )
     }
 else:
-    # Configurazione per Sviluppo Locale (SQLite)
-    # I dati vengono salvati nel file db.sqlite3 sul tuo PC
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
