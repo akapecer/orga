@@ -3,7 +3,7 @@ chardet==5.2.0
 dj-database-url==2.3.0
 Django==5.1.6
 django-jazzmin==3.0.1
-django-pwa==1.0.12
+django-pwa
 gunicorn==20.1.0
 Pillow==11.1.0
 psycopg2-binary==2.9.10
