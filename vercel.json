@@ -1,8 +1,13 @@
 {
-    "rewrites": [
+    "builds": [{
+        "src": "orga/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
+    }],
+    "routes": [
         {
-            "source": "/(.*)",
-            "destination": "/orga/wsgi.py"
+            "src": "/(.*)",
+            "dest": "orga/wsgi.py"
         }
     ]
 }
