@@ -4,8 +4,6 @@ from django.utils.html import format_html
 from django import forms
 from django.forms import CheckboxSelectMultiple
 from django.utils import formats
-import locale
-from django.conf import settings
 
 admin.site.site_header = "Grotesque"
 admin.site.site_title = "Il Tuo Titolo Menu"
@@ -106,10 +104,9 @@ class MenuAdminForm(forms.ModelForm):
 
 def formatted_data_creazione(obj):
     """Formats the data_creazione in italian."""
-    locale.setlocale(locale.LC_TIME, settings.LANGUAGE_CODE + '.utf-8')
-    formatted_date = obj.data_creazione.strftime("%d/%m/%Y")
-    locale.setlocale(locale.LC_TIME, 'en_US.utf-8')
-    return formatted_date
+    if not obj.data_creazione:
+        return "-"
+    return formats.date_format(obj.data_creazione, "d F Y")
 
 
 formatted_data_creazione.short_description = 'Data creazione'
