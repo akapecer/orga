@@ -1,0 +1,74 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        .menu-preview-container {
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .menu-preview-container h2.category-title {
+            font-family: 'Georgia', serif;
+            font-size: 2rem;
+            color: #343a40;
+            border-bottom: 2px solid #343a40;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .dish {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        .dish:last-child {
+            border-bottom: none;
+        }
+        .dish-info {
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        .dish-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .dish-price {
+            font-weight: bold;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        .dish-allergens {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="menu-preview-container">
+        {% for categoria, piatti in menu_organizzato.items %}
+            <h2 class="category-title">{{ categoria }}</h2>
+            {% for piatto in piatti %}
+                <div class="dish">
+                    <div class="dish-info">
+                        <div class="dish-name">{{ piatto.nome }}</div>
+                        {% if piatto.allergeni.all %}<div class="dish-allergens">Allergeni: {{ piatto.allergeni.all|join:", " }}</div>{% endif %}
+                    </div>
+                    <div class="dish-price">{{ piatto.prezzo|stringformat:".2f" }} €</div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

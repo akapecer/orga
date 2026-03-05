@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-qw=sxp!83ajud&+b-hqro
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -57,7 +57,7 @@ JAZZMIN_SETTINGS = {
     "login_logo": "images/logo.png",
     "welcome_sign": "Benvenuto in Orga!",
     "show_sidebar": True,
-    "navigation_expanded": True,
+    "navigation_expanded": False,
     "hide_apps": ["auth"],
     "theme": "darkly",
     "show_ui_builder": True,
@@ -92,7 +92,7 @@ ROOT_URLCONF = 'orga.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'menu', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,22 +113,37 @@ WSGI_APPLICATION = 'orga.wsgi.application'
 
 IS_PRODUCTION = 'RENDER' in os.environ
 
+
+def _apply_postgres_pooler_safety(db_config):
+    """
+    Pooler-backed PostgreSQL connections (e.g. Neon pooler/PgBouncer transaction mode)
+    are not compatible with Django server-side cursors.
+    """
+    db_config['DISABLE_SERVER_SIDE_CURSORS'] = True
+    return db_config
+
 if IS_PRODUCTION:
     if 'DATABASE_URL' not in os.environ:
         raise ImproperlyConfigured("La variabile d'ambiente DATABASE_URL non è impostata nell'ambiente di produzione.")
     DATABASES = {
-        'default': dj_database_url.config(
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,
+        'default': _apply_postgres_pooler_safety(
+            dj_database_url.config(
+                conn_max_age=600,
+                conn_health_checks=True,
+                ssl_require=True,
+            )
         )
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+        'default': _apply_postgres_pooler_safety(
+            dj_database_url.parse(
+                "postgresql://neondb_owner:npg_Hi3BUANypa7L@ep-odd-dew-agxb878a-pooler.c-2.eu-central-1.aws.neon.tech/neondb",
+                conn_max_age=600,
+                conn_health_checks=True,
+                ssl_require=True,
+            )
+        )
     }
 
 

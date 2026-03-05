@@ -4,6 +4,9 @@ from django.utils.html import format_html
 from django import forms
 from django.forms import CheckboxSelectMultiple
 from django.utils import formats
+from django.urls import path, reverse
+from django.shortcuts import render
+from collections import defaultdict
 
 admin.site.site_header = "Grotesque"
 admin.site.site_title = "Il Tuo Titolo Menu"
@@ -114,7 +117,7 @@ formatted_data_creazione.short_description = 'Data creazione'
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = (formatted_data_creazione, 'genera_pdf_link')
+    list_display = ('anteprima_menu_link', 'genera_pdf_link')
     filter_horizontal = ('piatti',)
     form = MenuAdminForm
     fieldsets = (
@@ -135,6 +138,39 @@ class MenuAdmin(admin.ModelAdmin):
         css = {
             'all': ('menu/css/dashboard.css',)
         }
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('<path:object_id>/preview/', self.admin_site.admin_view(self.preview_view), name='menu_menu_preview'),
+        ]
+        return custom_urls + urls
+
+    def preview_view(self, request, object_id):
+        menu = self.get_object(request, object_id)
+        
+        piatti_del_menu = menu.piatti.select_related('categoria').prefetch_related('allergeni').order_by('categoria__nome', 'nome')
+
+        menu_organizzato = defaultdict(list)
+        for piatto in piatti_del_menu:
+            menu_organizzato[piatto.categoria.nome].append(piatto)
+
+        context = {
+            **self.admin_site.each_context(request),
+            'opts': self.model._meta,
+            'title': f"Anteprima: {menu}",
+            'menu_organizzato': dict(menu_organizzato),
+            'change_url': reverse('admin:menu_menu_change', args=[menu.pk]),
+        }
+        
+        return render(request, 'admin/menu/menu/preview.html', context)
+
+    def anteprima_menu_link(self, obj):
+        url = reverse('admin:menu_menu_preview', args=[obj.pk])
+        # Usa la funzione esistente per formattare la data come testo del link
+        return format_html('<a href="{}">{}</a>', url, formatted_data_creazione(obj))
+    anteprima_menu_link.short_description = 'Data creazione (Anteprima)'
+    anteprima_menu_link.admin_order_field = 'data_creazione'
 
     def genera_pdf_link(self, obj):
         return format_html('<a href="/genera-pdf-menu/{}/" target="_blank">Genera PDF</a>', obj.id)

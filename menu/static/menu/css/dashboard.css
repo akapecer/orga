@@ -1,146 +1,177 @@
-/* --- LAYOUT GENERALE --- */
+/* --- MOBILE FIRST BASE STYLES (Default) --- */
+/* In questo approccio, lo stile base è per MOBILE. Le media queries gestiscono il DESKTOP. */
 
-
-
-/* Espandi il contenitore dei box per occupare tutto lo spazio (sovrascrive Bootstrap) */
+/* 1. Layout Generale & Reset */
 .field-piatti .row > div {
     flex: 0 0 100% !important;
     max-width: 100% !important;
+    padding: 0 !important;
 }
 
-/* Assicura che il contenitore del campo occupi tutto lo spazio */
+.field-piatti .row {
+    margin: 0 !important;
+}
+
+/* Riduci il padding eccessivo della card su mobile per guadagnare spazio */
+form .card-body.p-5 {
+    padding: 1.25rem !important;
+}
+
 .field-piatti {
     width: 100% !important;
     display: block !important;
     clear: both !important;
 }
 
-/* Il contenitore del widget filter_horizontal */
+/* 2. Widget filter_horizontal (Selector) - Mobile Vertical Layout */
 .field-piatti .selector {
     width: 100% !important;
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important; /* Stack verticale su mobile */
     align-items: stretch !important;
-    justify-content: space-between !important;
-    gap: 20px !important;
+    gap: 10px !important;
     float: none !important; /* Disabilita float di Django */
 }
 
-/* --- BOX DEI PIATTI (Sinistra e Destra) --- */
-
+/* Box Available/Chosen */
 .field-piatti .selector-available, 
 .field-piatti .selector-chosen {
     display: flex !important;
     flex-direction: column !important;
-    flex: 1 !important; /* Espansione flessibile */
-    width: 40% !important; /* Fallback width */
-    min-width: 250px !important;
+    width: 100% !important; /* Larghezza piena su mobile */
+    min-width: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     border: 1px solid #ced4da !important;
     border-radius: 8px !important;
     background-color: #fff !important;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
     float: none !important;
 }
 
-/* Intestazioni (Titoli) */
+/* Headers */
 .field-piatti .selector h2 {
     background: #343a40 !important;
     color: #fff !important;
-    padding: 10px !important;
+    padding: 12px !important; /* Touch target più grande */
     margin: 0 !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     text-align: center !important;
     font-weight: bold !important;
     border-bottom: 1px solid #ced4da !important;
 }
 
-/* Liste (Select) */
+/* Header "Scelti" in verde per distinguerlo meglio su mobile */
+.field-piatti .selector-chosen h2 {
+    background: #28a745 !important;
+}
+
+/* Select Lists */
 .field-piatti .selector select {
-    min-height: 450px !important;
-    height: 450px !important; /* Altezza fissa per evitare il menu nativo su mobile */
-    flex: 1 !important;
+    min-height: 250px !important; /* Altezza ridotta per mobile */
+    height: 35vh !important; /* Altezza dinamica */
     width: 100% !important;
     border: none !important;
-    padding: 10px !important;
-    font-size: 14px !important;
+    padding: 5px !important;
+    font-size: 16px !important; /* Previene zoom su iOS */
     background: transparent !important;
     overflow-y: auto !important;
 }
 
-/* Opzioni della lista: forza il testo a capo e aumenta la spaziatura */
+/* Options */
 .field-piatti .selector select option {
     white-space: normal !important;
-    padding: 8px 5px !important;
+    padding: 12px 10px !important; /* Spaziatura comoda per il dito */
     border-bottom: 1px solid #f4f4f4 !important;
     line-height: 1.4 !important;
 }
 
-/* Filtro di ricerca */
+/* Filter */
 .field-piatti .selector-filter {
     background: #f8f9fa !important;
-    padding: 8px !important;
+    padding: 10px !important;
     border-bottom: 1px solid #ced4da !important;
 }
 
 .field-piatti .selector-filter input {
     width: 100% !important;
-    padding: 6px 10px !important;
+    padding: 10px !important; /* Input più grande */
+    font-size: 16px !important;
     border: 1px solid #ced4da !important;
     border-radius: 4px !important;
     box-sizing: border-box !important;
 }
 
-/* --- COLONNA CENTRALE (FRECCE) --- */
-
+/* 3. Chooser (Frecce) - Mobile Horizontal */
 .field-piatti .selector-chooser {
-    flex: 0 0 20px !important; /* Larghezza fissa per la colonna centrale */
-    width: 60px !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    width: 100% !important;
     justify-content: center !important;
     align-items: center !important;
+    padding: 10px 0 !important;
     margin: 0 !important;
-    padding: 0 !important;
     background: transparent !important;
     border: none !important;
     list-style: none !important;
-    float: none !important;
 }
 
 .field-piatti .selector-chooser li {
-    width: 100% !important;
-    margin: 15px 0 !important;
+    display: inline-block !important;
+    margin: 0 20px !important;
     padding: 0 !important;
-    text-align: center !important;
-    background: none !important;
-    border: none !important;
     list-style: none !important;
 }
 
-/* Ingrandisci le frecce di selezione */
+/* Ruota le frecce per il layout verticale (Destra->Giù, Sinistra->Su) */
 .field-piatti .selector-chooser li a {
-    transform: scale(1.5) !important; /* Ingrandisce l'icona del 50% */
+    transform: rotate(90deg) scale(1.5) !important;
+    display: block !important;
+    width: 30px;
+    height: 30px;
 }
 
-/* Nascondi i bottoni "Salva e aggiungi un altro" e "Salva e continua a modificare" */
+/* 4. Dashboard Cleanup & Layout */
+
+/* Nascondi la colonna principale standard */
+section#content > div.row > div.col-lg-9 {
+    display: none !important;
+}
+
+/* Espandi Azioni Recenti */
+section#content > div.row > div.col-lg-3 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
+
+/* Nascondi widget specifici legacy */
+section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row > div.col-md-6.col-sm-12:nth-child(1) {
+    display: none !important;
+}
+
+/* 5. Timeline - Mobile Vertical (Default) */
+.timeline {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+}
+
+.timeline > div {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* 6. UI Tweaks Generali */
 #jazzy-actions input[name="_addanother"],
 #jazzy-actions input[name="_continue"] {
     display: none !important;
 }
 
-/* Nascondi i pulsanti "Modifica" (changelink) dalle liste e widget */
 a.btn.changelink {
     display: none !important;
 }
 
-/* Nascondi il widget specifico richiesto nella dashboard */
-section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row > div.col-md-6.col-sm-12:nth-child(1) {
-    display: none !important;
-}
-
-/* Disponi le checkbox degli allergeni in orizzontale */
+/* Allergeni Checkboxes */
 .field-allergeni #id_allergeni {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -152,45 +183,119 @@ section#content.content > div.row > div.col-lg-9.col-12:nth-child(1) > div.row >
 .field-allergeni #id_allergeni > li {
     display: inline-flex !important;
     align-items: center !important;
+    padding: 5px !important;
     list-style: none !important;
 }
 
-/* --- DASHBOARD CLEANUP & LAYOUT --- */
-
-/* Nascondi la colonna principale della dashboard standard (Lista App) */
-/* Questo rimuove l'elemento richiesto e tutti i widget standard ridondanti */
-section#content > div.row > div.col-lg-9 {
-    display: none !important;
+/* 7. Menu add/change form: mobile-first refinements */
+body.app-menu.model-menu.change-form .content-wrapper .card,
+body.app-menu.model-menu.add-form .content-wrapper .card {
+    border-radius: 12px !important;
+    overflow: hidden !important;
 }
 
-/* Espandi la colonna "Azioni Recenti" per occupare tutto lo spazio */
-section#content > div.row > div.col-lg-3 {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
+body.app-menu.model-menu.change-form .card .card-body,
+body.app-menu.model-menu.add-form .card .card-body {
+    padding: 1rem !important;
 }
 
-/* --- AZIONI RECENTI: ORIZZONTALE SU DESKTOP --- */
+body.app-menu.model-menu.change-form .field-piatti,
+body.app-menu.model-menu.add-form .field-piatti {
+    margin-bottom: 1rem !important;
+}
+
+body.app-menu.model-menu.change-form .field-piatti .selector select,
+body.app-menu.model-menu.add-form .field-piatti .selector select {
+    min-height: 220px !important;
+    height: 36vh !important;
+}
+
+body.app-menu.model-menu.change-form #jazzy-actions,
+body.app-menu.model-menu.add-form #jazzy-actions {
+    position: sticky !important;
+    bottom: 0 !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e9ecef !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    margin-top: 1rem !important;
+    z-index: 20 !important;
+}
+
+body.app-menu.model-menu.change-form #jazzy-actions .btn,
+body.app-menu.model-menu.add-form #jazzy-actions .btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    margin: 0.25rem 0 !important;
+}
+
+/* --- DESKTOP ENHANCEMENTS (Media Query) --- */
 @media (min-width: 992px) {
-    /* Rimuovi la linea verticale della timeline */
+    
+    /* Ripristina il padding ampio su desktop */
+    form .card-body.p-5 {
+        padding: 3rem !important;
+    }
+
+    body.app-menu.model-menu.change-form #jazzy-actions .btn,
+    body.app-menu.model-menu.add-form #jazzy-actions .btn {
+        width: auto !important;
+        margin: 0.25rem !important;
+    }
+
+    /* Selector: Side-by-Side */
+    .field-piatti .selector {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        gap: 20px !important;
+    }
+
+    .field-piatti .selector-available, 
+    .field-piatti .selector-chosen {
+        width: 45% !important;
+        flex: 1 !important;
+    }
+
+    .field-piatti .selector select {
+        min-height: 450px !important;
+        height: 450px !important;
+    }
+
+    /* Chooser: Vertical Column */
+    .field-piatti .selector-chooser {
+        flex-direction: column !important;
+        flex: 0 0 60px !important;
+        width: 60px !important;
+        height: auto !important;
+    }
+
+    .field-piatti .selector-chooser li {
+        display: block !important;
+        margin: 15px 0 !important;
+    }
+
+    .field-piatti .selector-chooser li a {
+        transform: scale(1.5) !important; /* Reset rotazione */
+    }
+
+    .field-piatti .selector-chosen h2 {
+        background: #343a40 !important; /* Reset colore header su desktop (opzionale) */
+    }
+
+    /* Timeline: Horizontal Grid */
     .timeline::before {
         display: none !important;
     }
 
-    /* Disponi gli elementi in griglia orizzontale */
     .timeline {
-        display: flex !important;
+        flex-direction: row !important;
         flex-wrap: wrap !important;
-        gap: 15px !important;
     }
 
-    /* Ogni blocco (data o azione) diventa una card flessibile */
     .timeline > div {
-        flex: 1 1 300px !important; /* Larghezza base 300px, si adatta */
-        margin-right: 0 !important;
-        margin-bottom: 0 !important;
+        flex: 1 1 300px !important;
     }
 
-    /* Aggiusta l'icona della timeline per il layout orizzontale */
     .timeline > div > .fas, 
     .timeline > div > .fa {
         position: static !important;
@@ -198,42 +303,8 @@ section#content > div.row > div.col-lg-3 {
         margin-right: 10px !important;
     }
     
-    /* Aggiusta il margine del contenuto */
     .timeline > div > .timeline-item {
         margin-left: 40px !important;
         margin-right: 0 !important;
-    }
-}
-
-/* --- RESPONSIVE MOBILE (Sotto 768px) --- */
-@media (max-width: 767px) {
-    /* Impila i box verticalmente */
-    .field-piatti .selector {
-        flex-direction: column !important;
-    }
-
-    /* I box occupano tutta la larghezza */
-    .field-piatti .selector-available, 
-    .field-piatti .selector-chosen {
-        width: 100% !important;
-    }
-
-    /* La colonna centrale delle frecce diventa una riga orizzontale */
-    .field-piatti .selector-chooser {
-        flex-direction: row !important;
-        width: 100% !important;
-        height: auto !important;
-        padding: 10px 0 !important;
-    }
-
-    .field-piatti .selector-chooser li {
-        display: inline-block !important;
-        width: auto !important;
-        margin: 0 20px !important;
-    }
-
-    /* Ruota le frecce: Destra diventa Giù, Sinistra diventa Su */
-    .field-piatti .selector-chooser li a {
-        transform: rotate(90deg) scale(1.5) !important;
     }
 }
