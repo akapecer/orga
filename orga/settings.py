@@ -216,13 +216,17 @@ PWA_START_URL = '/'
 PWA_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/images/logo_1.png',  # Assicurati di avere questo file!
-        'sizes': '192x192'
+        'src': '/static/images/logo_pwa_192.png',
+        'sizes': '192x192',
+        'type': 'image/png',
+        'purpose': 'any maskable',
     },
     {
-        'src': '/static/images/logo_1.png',
-        'sizes': '512x512'
+        'src': '/static/images/logo_pwa_512.png',
+        'sizes': '512x512',
+        'type': 'image/png',
+        'purpose': 'any maskable',
     }
 ]
-PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo_1.png', 'sizes': '512x512'}]
+PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo_apple_180.png', 'sizes': '180x180'}]
 PWA_APP_LANG = 'it-IT'
