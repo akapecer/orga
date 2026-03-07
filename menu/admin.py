@@ -97,6 +97,7 @@ class PiattoAdmin(admin.ModelAdmin):
         css = {
             'all': ('menu/css/dashboard.css',)
         }
+        js = ('menu/js/menu-admin.js',)
 
 
 class MenuAdminForm(forms.ModelForm):
@@ -145,6 +146,22 @@ class MenuAdmin(admin.ModelAdmin):
             path('<path:object_id>/preview/', self.admin_site.admin_view(self.preview_view), name='menu_menu_preview'),
         ]
         return custom_urls + urls
+
+    @staticmethod
+    def _is_mobile_request(request):
+        user_agent = (request.META.get('HTTP_USER_AGENT') or '').lower()
+        mobile_markers = ('mobile', 'android', 'iphone', 'ipad', 'ipod')
+        return any(marker in user_agent for marker in mobile_markers)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        field = super().formfield_for_manytomany(db_field, request, **kwargs)
+        if db_field.name == 'piatti':
+            field.queryset = Piatto.objects.select_related('categoria').order_by('categoria__nome', 'nome')
+            field.label_from_instance = lambda obj: f"{obj.nome} - {obj.prezzo} EUR"
+            if self._is_mobile_request(request):
+                # Fallback widget on mobile: more reliable than filter_horizontal.
+                field.widget = forms.SelectMultiple(attrs={'size': 18})
+        return field
 
     def preview_view(self, request, object_id):
         menu = self.get_object(request, object_id)

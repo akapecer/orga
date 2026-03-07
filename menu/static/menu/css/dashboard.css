@@ -210,6 +210,29 @@ body.app-menu.model-menu.add-form .field-piatti .selector select {
     height: 36vh !important;
 }
 
+body.app-menu.model-menu.change-form .field-piatti select[multiple]:not([id$="_from"]):not([id$="_to"]),
+body.app-menu.model-menu.add-form .field-piatti select[multiple]:not([id$="_from"]):not([id$="_to"]) {
+    width: 100% !important;
+    min-height: 42vh !important;
+    font-size: 16px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+}
+
+.menu-option-balloon {
+    position: fixed;
+    z-index: 9999;
+    background: rgba(33, 37, 41, 0.96);
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.35;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    pointer-events: none;
+}
+
 body.app-menu.model-menu.change-form #jazzy-actions,
 body.app-menu.model-menu.add-form #jazzy-actions {
     position: sticky !important;
