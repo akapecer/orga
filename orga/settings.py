@@ -55,6 +55,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "Grotesque",
     "site_logo": "images/logo-login.png",  # Percorso del logo
     "login_logo": "images/logo.png",
+    "site_icon": "images/logo_icon_32.png",
     "welcome_sign": "Benvenuto in Orga!",
     "show_sidebar": True,
     "navigation_expanded": False,
@@ -205,14 +206,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- PWA CONFIGURATION ---
-PWA_APP_NAME = 'Orga Menu'
-PWA_APP_DESCRIPTION = "Il menu digitale del tuo ristorante"
+PWA_APP_NAME = 'Orga'
+PWA_APP_DESCRIPTION = "Dashboard e menu digitale del tuo ristorante"
 PWA_APP_THEME_COLOR = '#343a40'  # Colore della barra di stato (es. scuro come Jazzmin)
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'any'
-PWA_START_URL = '/'
+PWA_START_URL = '/admin/'
+PWA_APP_ROOT_URL = '/admin/'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'templates', 'serviceworker.js')
 PWA_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
@@ -230,3 +233,4 @@ PWA_APP_ICONS = [
 ]
 PWA_APP_ICONS_APPLE = [{'src': '/static/images/logo_apple_180.png', 'sizes': '180x180'}]
 PWA_APP_LANG = 'it-IT'
+PWA_APP_DEBUG_MODE = DEBUG
