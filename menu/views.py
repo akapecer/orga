@@ -1,12 +1,20 @@
 from collections import defaultdict
 
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from django.utils.html import escape
 from menu.models import Menu
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate
+
+
+def pwa_home(request):
+    if request.user.is_authenticated:
+        return redirect("/admin/")
+
+    return render(request, "pwa_home.html")
 
 
 def genera_pdf_menu(request, menu_id):
