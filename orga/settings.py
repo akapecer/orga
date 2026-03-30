@@ -171,6 +171,13 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_REDIRECT_URL = '/admin/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Configurazione Sessioni (Remember Me)
+# Impedisce la scadenza della sessione alla chiusura del browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# Imposta la durata della sessione a 1 anno (in secondi)
+SESSION_COOKIE_AGE = 31536000
+# Rinnova la scadenza del cookie a ogni richiesta effettuata dall'utente
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
