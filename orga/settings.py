@@ -47,7 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'menu',
     'pwa',
+    'webpush',
 ]
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "INSERISCI_QUI_LA_TUA_CHIAVE_PUBBLICA",
+    "VAPID_PRIVATE_KEY": "INSERISCI_QUI_LA_TUA_CHIAVE_PRIVATA",
+    "VAPID_ADMIN_EMAIL": "admin@example.com",
+}
 
 JAZZMIN_SETTINGS = {
     "site_title": "Orga Admin",

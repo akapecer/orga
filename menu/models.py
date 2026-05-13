@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+from webpush import send_group_notification
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True)
@@ -69,3 +72,17 @@ class Menu(models.Model):
 
     def __str__(self):
         return f"{self.nome} ({self.data_creazione})"
+
+@receiver(post_save, sender=Menu)
+def notifica_creazione_menu(sender, instance, created, **kwargs):
+    """
+    Segnale che intercetta la creazione di un nuovo Menu e attiva l'invio della notifica.
+    """
+    if created:
+        payload = {
+            "head": "Nuovo Menu Disponibile!",
+            "body": f"Scopri il menu del {instance.data_creazione.strftime('%d/%m')}: {instance.nome}",
+            "icon": "/static/images/logo_pwa_192.png",
+            "url": "/app/"
+        }
+        send_group_notification(group_name="clienti", payload=payload, ttl=1000)

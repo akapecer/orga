@@ -220,6 +220,21 @@ body.app-menu.model-menu.add-form .field-piatti select[multiple]:not([id$="_from
     background: #fff !important;
 }
 
+/* Miglioramento visibilità tag Select2 (i piatti selezionati nel menu) */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #202327 !important; /* Grigio scuro per contrasto elevato con testo bianco */
+    border: 1px solid #454d55 !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+    padding: 2px 8px !important;
+    margin-top: 4px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff !important;
+    margin-right: 5px !important;
+}
+
 .menu-option-balloon {
     position: fixed;
     z-index: 9999;

@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pwa.urls')),
     path('', include('menu.urls')),  # Include URLs from the 'menu' app
+    path('webpush/', include('webpush.urls')),
 ]

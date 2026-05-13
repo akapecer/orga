@@ -7,6 +7,7 @@ from django.utils import formats
 from django.urls import path, reverse
 from django.shortcuts import render
 from collections import defaultdict
+from webpush import send_group_notification
 
 admin.site.site_header = "Grotesque"
 admin.site.site_title = "Il Tuo Titolo Menu"
@@ -133,7 +134,7 @@ class MenuAdmin(admin.ModelAdmin):
         }),
     )
 
-    actions = ['delete_selected', 'delete_all_menus']
+    actions = ['delete_selected', 'delete_all_menus', 'invia_notifica_push']
 
     class Media:
         css = {
@@ -166,17 +167,31 @@ class MenuAdmin(admin.ModelAdmin):
     def preview_view(self, request, object_id):
         menu = self.get_object(request, object_id)
         
-        piatti_del_menu = menu.piatti.select_related('categoria').prefetch_related('allergeni').order_by('categoria__nome', 'nome')
+        # Recupera i piatti ordinati per nome
+        piatti_del_menu = menu.piatti.select_related('categoria').prefetch_related('allergeni').order_by('nome')
 
-        menu_organizzato = defaultdict(list)
+        # Raggruppa i piatti per categoria
+        piatti_per_categoria = defaultdict(list)
         for piatto in piatti_del_menu:
-            menu_organizzato[piatto.categoria.nome].append(piatto)
+            cat_nome = piatto.categoria.nome if piatto.categoria else "Senza Categoria"
+            piatti_per_categoria[cat_nome].append(piatto)
+
+        # Definisce l'ordine desiderato (coerente con la logica del PDF in views.py)
+        ordine_preferito = ["Antipasti", "Primi Piatti", "Secondi Piatti", "Dolci"]
+        categorie_presenti = list(piatti_per_categoria.keys())
+        
+        # Costruisce l'ordine finale: prima le categorie preferite, poi le altre in ordine alfabetico
+        ordine_finale = [cat for cat in ordine_preferito if cat in piatti_per_categoria]
+        ordine_finale.extend(sorted(cat for cat in categorie_presenti if cat not in ordine_preferito))
+
+        # Crea un dizionario ordinato per l'anteprima
+        menu_organizzato = {cat: piatti_per_categoria[cat] for cat in ordine_finale}
 
         context = {
             **self.admin_site.each_context(request),
             'opts': self.model._meta,
             'title': f"Anteprima: {menu}",
-            'menu_organizzato': dict(menu_organizzato),
+            'menu_organizzato': menu_organizzato,
             'change_url': reverse('admin:menu_menu_change', args=[menu.pk]),
         }
         
@@ -206,3 +221,18 @@ class MenuAdmin(admin.ModelAdmin):
         deleted_count, _ = Menu.objects.all().delete()
         self.message_user(request, f"Sono stati eliminati tutti i {deleted_count} menu.", level=messages.SUCCESS)
     delete_all_menus.short_description = "Elimina tutti i menu"
+
+    def invia_notifica_push(self, request, queryset):
+        """
+        Azione manuale per inviare una notifica push per i menu selezionati.
+        """
+        for menu in queryset:
+            payload = {
+                "head": "Promozione Menu",
+                "body": f"Ti sei perso il nostro menu '{menu.nome}'? Scoprilo ora!",
+                "icon": "/static/images/logo_pwa_192.png",
+                "url": "/app/"
+            }
+            send_group_notification(group_name="clienti", payload=payload, ttl=1000)
+        self.message_user(request, f"Notifica push inviata con successo per {queryset.count()} menu.", level=messages.SUCCESS)
+    invia_notifica_push.short_description = "Invia notifica push ai clienti"
