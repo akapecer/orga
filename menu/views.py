@@ -21,7 +21,7 @@ def genera_pdf_menu(request, menu_id):
     # Retrieve the menu from the database
     menu = Menu.objects.get(pk=menu_id)
     piatti_del_menu = menu.piatti.select_related("categoria").prefetch_related("allergeni").order_by("categoria__nome", "nome")
-    ordine_categorie_preferito = ["Antipasti", "Primi Piatti", "Secondi Piatti", "Dolci"]
+    ordine_categorie_preferito = ["Antipasti", "Primi", "Primi Piatti", "Secondi", "Secondi Piatti", "Contorni", "Dolci", "Dessert"]
 
     # Group dishes by category, handling names not present in the preferred order.
     piatti_per_categoria = defaultdict(list)

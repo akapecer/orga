@@ -177,7 +177,7 @@ class MenuAdmin(admin.ModelAdmin):
             piatti_per_categoria[cat_nome].append(piatto)
 
         # Definisce l'ordine desiderato (coerente con la logica del PDF in views.py)
-        ordine_preferito = ["Antipasti", "Primi Piatti", "Secondi Piatti", "Dolci"]
+        ordine_preferito = ["Antipasti", "Primi", "Primi Piatti", "Secondi", "Secondi Piatti", "Contorni", "Dolci", "Dessert"]
         categorie_presenti = list(piatti_per_categoria.keys())
         
         # Costruisce l'ordine finale: prima le categorie preferite, poi le altre in ordine alfabetico
