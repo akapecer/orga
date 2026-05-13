@@ -79,10 +79,14 @@ def notifica_creazione_menu(sender, instance, created, **kwargs):
     Segnale che intercetta la creazione di un nuovo Menu e attiva l'invio della notifica.
     """
     if created:
-        payload = {
-            "head": "Nuovo Menu Disponibile!",
-            "body": f"Scopri il menu del {instance.data_creazione.strftime('%d/%m')}: {instance.nome}",
-            "icon": "/static/images/logo_pwa_192.png",
-            "url": "/app/"
-        }
-        send_group_notification(group_name="clienti", payload=payload, ttl=1000)
+        try:
+            payload = {
+                "head": "Nuovo Menu Disponibile!",
+                "body": f"Scopri il menu del {instance.data_creazione.strftime('%d/%m')}: {instance.nome}",
+                "icon": "/static/images/logo_pwa_192.png",
+                "url": "/app/"
+            }
+            send_group_notification(group_name="clienti", payload=payload, ttl=1000)
+        except Exception:
+            # Evita il crash se il gruppo 'clienti' non esiste (comune in locale)
+            pass

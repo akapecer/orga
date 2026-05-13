@@ -51,9 +51,9 @@ INSTALLED_APPS = [
 ]
 
 WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": "INSERISCI_QUI_LA_TUA_CHIAVE_PUBBLICA",
-    "VAPID_PRIVATE_KEY": "INSERISCI_QUI_LA_TUA_CHIAVE_PRIVATA",
-    "VAPID_ADMIN_EMAIL": "admin@example.com",
+    "VAPID_PUBLIC_KEY": os.environ.get("VAPID_PUBLIC_KEY", "BIhMSK5n3FTm-1-H4dlyIr2S8DRo-URq6kpggrIWSfMFDEs6icPQcnQqrBGZzVztx0DbOVNxg8wQyNn5OolGRO4"),
+    "VAPID_PRIVATE_KEY": os.environ.get("VAPID_PRIVATE_KEY", "RfTv2g751-t9YHb3OVSqA85k5I5jchTqFvXCsFd9SQ4"),
+    "VAPID_ADMIN_EMAIL": "cinelligrafica@gmail.com",
 }
 
 JAZZMIN_SETTINGS = {
@@ -143,15 +143,12 @@ if IS_PRODUCTION:
         )
     }
 else:
+    # In locale usiamo SQLite per evitare problemi di latenza e disconnessioni del database remoto
     DATABASES = {
-        'default': _apply_postgres_pooler_safety(
-            dj_database_url.parse(
-                "postgresql://neondb_owner:npg_Hi3BUANypa7L@ep-odd-dew-agxb878a-pooler.c-2.eu-central-1.aws.neon.tech/neondb",
-                conn_max_age=600,
-                conn_health_checks=True,
-                ssl_require=True,
-            )
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
 
 

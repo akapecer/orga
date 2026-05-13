@@ -226,13 +226,17 @@ class MenuAdmin(admin.ModelAdmin):
         """
         Azione manuale per inviare una notifica push per i menu selezionati.
         """
-        for menu in queryset:
-            payload = {
-                "head": "Promozione Menu",
-                "body": f"Ti sei perso il nostro menu '{menu.nome}'? Scoprilo ora!",
-                "icon": "/static/images/logo_pwa_192.png",
-                "url": "/app/"
-            }
-            send_group_notification(group_name="clienti", payload=payload, ttl=1000)
-        self.message_user(request, f"Notifica push inviata con successo per {queryset.count()} menu.", level=messages.SUCCESS)
+        try:
+            for menu in queryset:
+                payload = {
+                    "head": "Promozione Menu",
+                    "body": f"Ti sei perso il nostro menu '{menu.nome}'? Scoprilo ora!",
+                    "icon": "/static/images/logo_pwa_192.png",
+                    "url": "/app/"
+                }
+                send_group_notification(group_name="clienti", payload=payload, ttl=1000)
+            self.message_user(request, f"Notifica push inviata con successo per {queryset.count()} menu.", level=messages.SUCCESS)
+        except Exception as e:
+            self.message_user(request, f"Errore: {str(e)}. Crea il gruppo 'clienti' in Webpush Admin.", level=messages.ERROR)
+
     invia_notifica_push.short_description = "Invia notifica push ai clienti"
