@@ -220,6 +220,13 @@ body.app-menu.model-menu.add-form .field-piatti select[multiple]:not([id$="_from
     background: #fff !important;
 }
 
+/* Fix per errore ARIA: impedisce che il select originale (nascosto) causi conflitti di focus */
+.select2-hidden-accessible {
+    pointer-events: none !important;
+    user-select: none !important;
+    display: none !important; /* Forza la scomparsa totale per il browser engine */
+}
+
 /* Miglioramento visibilità tag Select2 (i piatti selezionati nel menu) */
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #202327 !important; /* Grigio scuro per contrasto elevato con testo bianco */
